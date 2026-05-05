@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ourika — La Vallée Vivante</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --emerald: #1B6B45;
+  --lime: #7DC95E;
+  --saffron: #F4A623;
+  --coral: #E8553A;
+  --sky: #4AAED9;
+  --cream: #FDF6EC;
+  --ink: #1A1A0F;
+  --warm-white: #FEFAF4;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--warm-white);
+  color: var(--ink);
+  cursor: none;
+  overflow-x: hidden;
+}
+
+.cursor {
+  position: fixed;
+  width: 14px; height: 14px;
+  background: var(--coral);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, background 0.3s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  position: fixed;
+  width: 38px; height: 38px;
+  border: 2px solid var(--coral);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.35s ease, opacity 0.3s;
+  transform: translate(-50%, -50%);
+  opacity: 0.4;
+}
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 1.4rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--saffron);
+  padding: 0.3rem 0.9rem;
+}
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-decoration: none;
+  transition: color 0.3s;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.nav-links a:hover { color: var(--saffron); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  background: var(--emerald);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-left {
+  padding: 10rem 3rem 5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--saffron);
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.45rem 1rem;
+  margin-bottom: 2rem;
+  width: fit-content;
+  animation: slideRight 0.8s ease both;
+}
+
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(4rem, 7vw, 7.5rem);
+  font-weight: 900;
+  line-height: 0.9;
+  color: var(--cream);
+  margin-bottom: 2rem;
+  animation: slideRight 0.9s ease 0.1s both;
+}
+
+.hero h1 .accent { color: var(--lime); font-style: italic; display: block; }
+.hero h1 .small-line {
+  font-size: 0.45em;
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(253,246,236,0.5);
+  display: block;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2em;
+}
+
+.hero-desc {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: rgba(253,246,236,0.72);
+  max-width: 380px;
+  font-weight: 300;
+  margin-bottom: 3rem;
+  animation: slideRight 1s ease 0.2s both;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  animation: slideRight 1s ease 0.3s both;
+}
+
+.btn-main {
+  background: var(--coral);
+  color: var(--cream);
+  padding: 1rem 2rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s, transform 0.2s;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 0 100%);
+}
+.btn-main:hover { background: #cf3d22; transform: translateY(-2px); }
+
+.btn-ghost {
+  color: rgba(253,246,236,0.6);
+  font-size: 0.78rem;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.btn-ghost:hover { color: var(--saffron); }
+
+.hero-stats {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(253,246,236,0.15);
+  animation: slideRight 1s ease 0.4s both;
+}
+.stat .n {
+  font-family: 'Fraunces', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--saffron);
+  line-height: 1;
+}
+.stat .l {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(253,246,236,0.4);
+  margin-top: 0.2rem;
+}
+
+.hero-right { position: relative; overflow: hidden; }
+.hero-img-main {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: saturate(1.2) brightness(0.85);
+  transition: transform 0.8s ease;
+}
+.hero-right:hover .hero-img-main { transform: scale(1.04); }
+.hero-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(27,107,69,0.4) 0%, transparent 60%);
+}
+
+.hero-float-card {
+  position: absolute;
+  bottom: 3rem; left: -2rem;
+  background: var(--saffron);
+  padding: 1.5rem 2rem;
+  width: 200px;
+  animation: floatCard 4s ease-in-out infinite;
+  box-shadow: 8px 8px 0 var(--coral);
+}
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.hero-float-card .fc-num {
+  font-family: 'Fraunces', serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+.hero-float-card .fc-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(26,26,15,0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.3rem;
+}
+
+.hero-big-text {
+  position: absolute;
+  bottom: -1.5rem; right: -1rem;
+  font-family: 'Fraunces', serif;
+  font-size: 9rem;
+  font-weight: 900;
+  color: rgba(253,246,236,0.04);
+  letter-spacing: -0.05em;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* MARQUEE */
+.marquee-bar {
+  background: var(--saffron);
+  padding: 0.9rem 0;
+  overflow: hidden;
+  display: flex;
+}
+.marquee-track {
+  display: flex;
+  gap: 3rem;
+  animation: marquee 18s linear infinite;
+  white-space: nowrap;
+}
+.marquee-track span {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.marquee-track span::after { content: '◆'; font-size: 0.5rem; color: var(--coral); }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* DISCOVER */
+.discover {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  min-height: 85vh;
+}
+
+.discover-left {
+  background: var(--cream);
+  padding: 6rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.tag-pill {
+  display: inline-block;
+  background: var(--emerald);
+  color: var(--cream);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  margin-bottom: 1.5rem;
+  width: fit-content;
+}
+
+.discover-left h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+}
+.discover-left h2 em { color: var(--emerald); font-style: italic; }
+
+.discover-left p {
+  font-size: 0.88rem;
+  line-height: 1.9;
+  color: rgba(26,26,15,0.55);
+  font-weight: 300;
+  margin-bottom: 1rem;
+  max-width: 380px;
+}
+
+.highlight-box {
+  background: var(--lime);
+  padding: 1.2rem 1.5rem;
+  margin-top: 1.5rem;
+  border-left: 4px solid var(--emerald);
+}
+.highlight-box p {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.discover-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.d-img { overflow: hidden; position: relative; }
+.d-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease, filter 0.4s;
+  filter: saturate(1.1);
+}
+.d-img:hover img { transform: scale(1.08); filter: saturate(1.4); }
+
+.d-img-color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 2rem;
+}
+.d-img-color.saffron { background: var(--saffron); }
+.d-img-color.sky { background: var(--sky); }
+.d-img-color .big-icon { font-size: 3rem; }
+.d-img-color .d-label {
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+}
+.d-img-color .d-sub {
+  font-size: 0.7rem;
+  color: rgba(26,26,15,0.5);
+  text-align: center;
+}
+
+/* ACTIVITIES */
+.activities {
+  background: var(--ink);
+  padding: 8rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.activities::before {
+  content: 'OURIKA';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Fraunces', serif;
+  font-size: 18vw;
+  font-weight: 900;
+  color: rgba(255,255,255,0.02);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.act-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 1;
+}
+.act-header h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1;
+}
+.act-header h2 em { color: var(--lime); font-style: italic; }
+.act-header .sub {
+  font-size: 0.8rem;
+  color: rgba(253,246,236,0.35);
+  max-width: 260px;
+  text-align: right;
+  line-height: 1.7;
+}
+
+.act-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  position: relative;
+  z-index: 1;
+  background: rgba(255,255,255,0.05);
+}
+
+.act-card {
+  background: var(--ink);
+  padding: 2.5rem 2rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.3s, transform 0.3s;
+  cursor: none;
+  position: relative;
+  overflow: hidden;
+}
+.act-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.act-card:nth-child(1)::after { background: var(--lime); }
+.act-card:nth-child(2)::after { background: var(--saffron); }
+.act-card:nth-child(3)::after { background: var(--coral); }
+.act-card:nth-child(4)::after { background: var(--sky); }
+.act-card:hover { background: rgba(255,255,255,0.06); transform: translateY(-6px); }
+.act-card:hover::after { transform: scaleX(1); }
+
+.act-num {
+  font-family: 'Fraunces', serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  opacity: 0.06;
+  color: var(--cream);
+  line-height: 1;
+  margin-bottom: -0.8rem;
+}
+.act-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.act-card h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 0.8rem;
+  line-height: 1.2;
+}
+.act-card p {
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: rgba(253,246,236,0.4);
+  font-weight: 300;
+}
+.act-tag {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  font-weight: 500;
+}
+.act-card:nth-child(1) .act-tag { background: rgba(125,201,94,0.12); color: var(--lime); }
+.act-card:nth-child(2) .act-tag { background: rgba(244,166,35,0.12); color: var(--saffron); }
+.act-card:nth-child(3) .act-tag { background: rgba(232,85,58,0.12); color: var(--coral); }
+.act-card:nth-child(4) .act-tag { background: rgba(74,174,217,0.12); color: var(--sky); }
+
+/* PHOTO STRIP */
+.photo-strip {
+  display: flex;
+  height: 400px;
+  overflow: hidden;
+}
+.ps-item {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  transition: flex 0.5s cubic-bezier(0.4,0,0.2,1);
+  cursor: none;
+}
+.ps-item:hover { flex: 2.5; }
+.ps-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: filter 0.5s, transform 0.5s;
+  filter: saturate(0.6) brightness(0.7);
+}
+.ps-item:hover img { filter: saturate(1.3) brightness(0.9); transform: scale(1.05); }
+.ps-label {
+  position: absolute;
+  bottom: 1.5rem; left: 1.5rem;
+  color: var(--cream);
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.4s ease 0.1s;
+  background: rgba(26,26,15,0.6);
+  padding: 0.4rem 0.8rem;
+}
+.ps-item:hover .ps-label { opacity: 1; transform: translateY(0); }
+
+/* PRACTICAL */
+.practical {
+  background: var(--cream);
+  padding: 8rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.prac-heading {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.2rem, 3vw, 3rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+}
+.prac-heading em { color: var(--emerald); font-style: italic; }
+
+.info-cards { display: flex; flex-direction: column; gap: 1rem; }
+.info-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 1.3rem 1.5rem;
+  background: var(--warm-white);
+  border: 2px solid transparent;
+  transition: border-color 0.3s, transform 0.2s;
+  cursor: none;
+}
+.info-card:hover { border-color: var(--emerald); transform: translateX(4px); }
+.ic-dot {
+  width: 42px; height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+.ic-dot.green { background: rgba(27,107,69,0.12); }
+.ic-dot.yellow { background: rgba(244,166,35,0.15); }
+.ic-dot.red { background: rgba(232,85,58,0.12); }
+.ic-dot.blue { background: rgba(74,174,217,0.15); }
+.ic-text strong { display: block; font-size: 0.78rem; font-weight: 600; color: var(--ink); margin-bottom: 0.3rem; }
+.ic-text span { font-size: 0.76rem; color: rgba(26,26,15,0.5); line-height: 1.6; }
+
+.seasons-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+.season-row { display: flex; flex-direction: column; gap: 0.8rem; }
+.season-bar {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+.s-name { font-size: 0.72rem; font-weight: 500; color: var(--ink); text-transform: uppercase; letter-spacing: 0.08em; }
+.bar-track { height: 8px; background: rgba(26,26,15,0.08); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; }
+.s-temp { font-family: 'Fraunces', serif; font-size: 0.9rem; font-weight: 700; color: var(--ink); white-space: nowrap; }
+.best-badge {
+  display: inline-block;
+  background: var(--lime);
+  color: var(--ink);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* FOOTER */
+footer {
+  background: var(--emerald);
+  padding: 5rem 4rem 3rem;
+}
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(253,246,236,0.15);
+  margin-bottom: 2rem;
+}
+.footer-brand {
+  font-family: 'Fraunces', serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1;
+}
+.footer-brand em { color: var(--saffron); font-style: italic; }
+.footer-tagline { font-size: 0.75rem; color: rgba(253,246,236,0.45); margin-top: 0.5rem; font-weight: 300; }
+.footer-links-col h4 { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--saffron); margin-bottom: 1rem; }
+.footer-links-col ul { list-style: none; }
+.footer-links-col ul li { margin-bottom: 0.6rem; }
+.footer-links-col ul a { font-size: 0.8rem; color: rgba(253,246,236,0.5); text-decoration: none; transition: color 0.3s; }
+.footer-links-col ul a:hover { color: var(--cream); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+.footer-copy { font-size: 0.7rem; color: rgba(253,246,236,0.28); }
+.footer-heart { font-size: 0.7rem; color: var(--coral); }
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 900px) {
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-left { padding: 8rem 1.5rem 3rem; }
+  .hero-right { height: 300px; }
+  .hero-float-card { left: 1rem; bottom: 1rem; }
+  .discover { grid-template-columns: 1fr; }
+  .discover-right { grid-template-columns: 1fr 1fr; height: 380px; }
+  .activities { padding: 5rem 1.5rem; }
+  .act-grid { grid-template-columns: 1fr 1fr; }
+  .act-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .act-header .sub { text-align: left; }
+  .photo-strip { height: 200px; }
+  .practical { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+  footer { padding: 4rem 1.5rem 2rem; }
+  .footer-top { flex-direction: column; gap: 2.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#" class="logo">OURIKA</a>
+  <ul class="nav-links">
+    <li><a href="#decouvrir">Découvrir</a></li>
+    <li><a href="#activites">Activités</a></li>
+    <li><a href="#photos">Galerie</a></li>
+    <li><a href="#pratique">Infos</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">★ Haut Atlas · Maroc</div>
+    <h1>
+      <span class="small-line">Vallée de l'</span>
+      <span class="accent">Ourika</span>
+      <span style="font-family:'Fraunces',serif; font-size:0.3em; font-weight:400; font-style:italic; color:rgba(253,246,236,0.4); display:block; margin-top:0.5em; letter-spacing:0.08em;">La nature à l'état pur</span>
+    </h1>
+    <p class="hero-desc">À 30 km de Marrakech, une vallée berbère sauvage coupée de rivières, de cascades et de villages accrochés aux montagnes de l'Atlas.</p>
+    <div class="hero-cta">
+      <a href="#decouvrir" class="btn-main">Explorer ↓</a>
+      <a href="#photos" class="btn-ghost">Voir la galerie →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="n">30km</div><div class="l">De Marrakech</div></div>
+      <div class="stat"><div class="n">2350m</div><div class="l">Altitude max</div></div>
+      <div class="stat"><div class="n">7</div><div class="l">Cascades</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-img-main" src="WhatsApp Image 2026-02-21 at 15.51.09.jpeg" alt="Ourika Valley">
+    <div class="hero-img-overlay"></div>
+    <div class="hero-float-card">
+      <div class="fc-num">★ 4.9</div>
+      <div class="fc-label">Note visiteurs</div>
+    </div>
+    <div class="hero-big-text">ATLAS</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span>Cascades de Setti Fatma</span><span>Villages Berbères</span><span>Randonnées Atlas</span><span>Cuisine Amazighe</span><span>Souk de Tnine</span><span>Rivière Ourika</span>
+    <span>Cascades de Setti Fatma</span><span>Villages Berbères</span><span>Randonnées Atlas</span><span>Cuisine Amazighe</span><span>Souk de Tnine</span><span>Rivière Ourika</span>
+  </div>
+</div>
+
+<!-- DISCOVER -->
+<section class="discover" id="decouvrir">
+  <div class="discover-left">
+    <span class="tag-pill">Présentation</span>
+    <h2>Une Vallée<br><em>Vivante</em> et<br>Préservée</h2>
+    <p>La vallée de l'Ourika s'étire sur 60 km entre la plaine du Haouz et les sommets enneigés du Haut Atlas. La rivière Ourika, torrent cristallin, a sculpté ce couloir de verdure au fil des siècles.</p>
+    <p>Les communautés berbères Amazighs y perpétuent leurs traditions depuis des millénaires — artisanat, musique, cuisine et fêtes saisonnières rythment la vie des douars.</p>
+    <div class="highlight-box">
+      <p>🌿 Meilleure période : printemps (mars–mai) pour les fleurs sauvages et l'air pur de la montagne.</p>
+    </div>
+  </div>
+  <div class="discover-right">
+    <div class="d-img">
+      <img src="Wha1.jpeg" alt="Atlas">
+    </div>
+    <div class="d-img-color saffron">
+      <div class="big-icon">🏔️</div>
+      <div class="d-label">Haut Atlas</div>
+      <div class="d-sub">Sommets à 4167m</div>
+    </div>
+    <div class="d-img-color sky">
+      <div class="big-icon">💧</div>
+      <div class="d-label">Oued Ourika</div>
+      <div class="d-sub">Rivière permanente</div>
+    </div>
+    <div class="d-img">
+      <img src="Wha2.jpeg" alt="Village">
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section class="activities" id="activites">
+  <div class="act-header">
+    <div>
+      <div class="tag-pill" style="background:rgba(125,201,94,0.15);color:var(--lime);margin-bottom:1rem;">Ce qu'on peut faire</div>
+      <h2>4 Activités<br><em>Incontournables</em></h2>
+    </div>
+    <p class="sub">Pour tous les profils : familles, randonneurs, amoureux de culture et de nature.</p>
+  </div>
+  <div class="act-grid">
+    <div class="act-card">
+      <div class="act-num">01</div>
+      <div class="act-icon">🥾</div>
+      <h3>Randonnée aux Cascades</h3>
+      <p>7 cascades à atteindre à pied depuis Setti Fatma. Sentiers accessibles à tous niveaux, avec guides locaux disponibles sur place.</p>
+      <span class="act-tag">Plein Air</span>
+    </div>
+    <div class="act-card">
+      <div class="act-num">02</div>
+      <div class="act-icon">🏘️</div>
+      <h3>Immersion Berbère</h3>
+      <p>Visite des douars authentiques, atelier poterie, initiation au tissage de tapis amazighs et rencontre des artisans locaux.</p>
+      <span class="act-tag">Culture</span>
+    </div>
+    <div class="act-card">
+      <div class="act-num">03</div>
+      <div class="act-icon">🫖</div>
+      <h3>Gastronomie du Terroir</h3>
+      <p>Tajine aux légumes de montagne, méchoui traditionnel et thé à la menthe servis en terrasse avec vue sur la rivière.</p>
+      <span class="act-tag">Gastronomie</span>
+    </div>
+    <div class="act-card">
+      <div class="act-num">04</div>
+      <div class="act-icon">🛍️</div>
+      <h3>Souk de Tnine</h3>
+      <p>Marché hebdomadaire du lundi matin : épices, argan, bijoux en argent, huiles essentielles et fruits de saison.</p>
+      <span class="act-tag">Shopping</span>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO STRIP -->
+<div class="photo-strip" id="photos">
+  <div class="ps-item">
+    <img src="Wha3.jpeg" alt="Vallée">
+    <div class="ps-label">La Vallée</div>
+  </div>
+  <div class="ps-item">
+    <img src="Wha4.jpeg" alt="Cascades">
+    <div class="ps-label">Les Cascades</div>
+  </div>
+  <div class="ps-item">
+    <img src="Wha5.jpeg" alt="Atlas">
+    <div class="ps-label">L'Atlas</div>
+  </div>
+  <div class="ps-item">
+    <img src="wHA6.png" alt="Village">
+    <div class="ps-label">Les Villages</div>
+  </div>
+  <div class="ps-item">
+    <img src="Wha7.jpeg" alt="Rivière">
+    <div class="ps-label">La Rivière</div>
+  </div>
+</div>
+
+<!-- PRACTICAL -->
+<section class="practical" id="pratique">
+  <div>
+    <div class="tag-pill">Guide Pratique</div>
+    <h2 class="prac-heading" style="margin-top:1rem;">Tout ce qu'il<br>faut <em>savoir</em></h2>
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="ic-dot green">📍</div>
+        <div class="ic-text">
+          <strong>Comment y aller</strong>
+          <span>Taxi collectif depuis Bab Rob (Marrakech) ~60–80 DH/pers. Route N8 en voiture, 45 min.</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="ic-dot yellow">💰</div>
+        <div class="ic-text">
+          <strong>Budget estimé</strong>
+          <span>Entrée cascades : 10 DH. Tajine au bord de l'eau : 80–130 DH. Guide rando : 150–250 DH.</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="ic-dot blue">🕐</div>
+        <div class="ic-text">
+          <strong>Durée conseillée</strong>
+          <span>Journée complète minimum. Départ de Marrakech avant 9h pour profiter du calme du matin.</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="ic-dot red">⚠️</div>
+        <div class="ic-text">
+          <strong>Attention aux crues</strong>
+          <span>Évitez la vallée après de fortes pluies (sept–oct). La rivière peut monter très brutalement.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="tag-pill">Météo & Saisons</div>
+    <div class="seasons-title">Quand partir ?</div>
+    <div class="season-row">
+      <div class="season-bar">
+        <div class="s-name">🌸 Printemps</div>
+        <div class="bar-track"><div class="bar-fill" style="width:90%;background:var(--lime);"></div></div>
+        <div class="s-temp">15–24°C <span class="best-badge">IDÉAL</span></div>
+      </div>
+      <div class="season-bar">
+        <div class="s-name">☀️ Été</div>
+        <div class="bar-track"><div class="bar-fill" style="width:70%;background:var(--saffron);"></div></div>
+        <div class="s-temp">25–35°C</div>
+      </div>
+      <div class="season-bar">
+        <div class="s-name">🍂 Automne</div>
+        <div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--coral);"></div></div>
+        <div class="s-temp">12–22°C</div>
+      </div>
+      <div class="season-bar">
+        <div class="s-name">❄️ Hiver</div>
+        <div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--sky);"></div></div>
+        <div class="s-temp">3–15°C</div>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;padding:2rem;background:var(--emerald);color:var(--cream);">
+      <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;margin-bottom:0.8rem;">📅 Souk hebdomadaire</div>
+      <p style="font-size:0.82rem;line-height:1.7;color:rgba(253,246,236,0.7);font-weight:300;">Chaque <strong style="color:var(--saffron);">lundi matin</strong> à Tnine Ourika — artisanat, produits locaux et ambiance 100% authentique.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Ourika <em>Valley</em></div>
+      <div class="footer-tagline">Haut Atlas · Maroc · Tourisme Responsable</div>
+    </div>
+    <div class="footer-links-col">
+      <h4>Explorer</h4>
+      <ul>
+        <li><a href="#decouvrir">Découvrir la vallée</a></li>
+        <li><a href="#activites">Activités</a></li>
+        <li><a href="#photos">Galerie photos</a></li>
+        <li><a href="#pratique">Infos pratiques</a></li>
+      </ul>
+    </div>
+    <div class="footer-links-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">Offices de tourisme</a></li>
+        <li><a href="#">Guides locaux</a></li>
+        <li><a href="#">Hébergements</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Ourika Valley — Tous droits réservés</p>
+    <p class="footer-heart">Fait avec ❤️ pour la vallée</p>
+  </div>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+(function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+})();
+
+document.querySelectorAll('a, .act-card, .info-card, .ps-item, .d-img').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    cursor.style.background = 'var(--saffron)';
+    ring.style.opacity = '0.8';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    cursor.style.background = 'var(--coral)';
+    ring.style.opacity = '0.4';
+  });
+});
+</script>
+</body>
+</html>
